@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Component } from 'react';
 
-const TaskForm = () => {
+const TaskForm = (props) => {
+  const {addTask} = props;
    //define state for the field
    const [task, setTask] = useState({
     id: '',
@@ -10,25 +11,38 @@ const TaskForm = () => {
     assignedTo: '',
     status: 'default'
   })
+  
+const [error, setError] = useState({
+    id: '',
+    name: '',
+    description: '',
+    dueDate: '',
+    assignedTo: '',
+    status: 'default'
+})
 
   useEffect(() => {
     console.log(task);
   }, [task]);
 
-  const handleInputChange = (event) => {
-    const {name, value} = event.target;
+  const handleInputChange = (name) => {
+   return (event) => {
     setTask({
       ...task,
-      [name]: value
+      [name]: event.target.value,
     })
-    console.log(task)
-    
+    console.log('form value', task)
+   }
   }
 
   const handleFormSubmit = (event) => {
     //stop event reloading on browser
     event.preventDefault();
+    addTask(task)
   }
+
+  
+
 
   return (
     <div className="container mt-3">
@@ -46,11 +60,17 @@ const TaskForm = () => {
       <h6></h6>
       <form className="mt-3" onSubmit={handleFormSubmit}>
         <div className="row">
+        <div className="col-6 mb-3">
+            <label htmlFor="name" className="form-label">
+              ID:
+            </label>
+            <input type="text" className="form-control" id="id" name="id" value={task.id} onChange={handleInputChange("id")}/>
+          </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
               Name:
             </label>
-            <input type="text" className="form-control" id="name" name="name" value={task.name} onChange={handleInputChange}/>
+            <input type="text" className="form-control" id="name" name="name" value={task.name} onChange={handleInputChange("name")}/>
           </div>
 
           <div className="col-6 mb-3">
@@ -62,7 +82,7 @@ const TaskForm = () => {
               id="description"
               name="description"
               value={task.description}
-              onChange={handleInputChange}
+              onChange={handleInputChange("description")}
             />
           </div>
 
@@ -76,7 +96,7 @@ const TaskForm = () => {
               id="dueDate"
               name="dueDate"
               value={task.dueDate} 
-              onChange={handleInputChange}
+              onChange={handleInputChange("dueDate")}
             />
           </div>
 
@@ -90,7 +110,7 @@ const TaskForm = () => {
               id="assignedTo"
               name="assignedTo"
               value={task.assignedTo}
-              onChange={handleInputChange}
+              onChange={handleInputChange("assignedTo")}
             />
           </div>
 
@@ -99,7 +119,7 @@ const TaskForm = () => {
               Status:
             </label>
             <select className="form-select" id="status" name="status" value={task.status}
-            onChange={handleInputChange}>
+            onChange={handleInputChange("status")}>
               <option value="default">Choose a status</option>
               <option value="in-progress">In Progress</option>
               <option value="completed">Completed</option>
