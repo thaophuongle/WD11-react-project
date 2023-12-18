@@ -1,70 +1,60 @@
-import React, { useEffect, useState, Component } from 'react';
+import React, { useEffect, useState, Component } from "react";
 
 const TaskForm = (props) => {
-  const {addTask, editedTask, updateTask} = props;
-   //define state for the field
-   const [task, setTask] = useState({
-    id: '',
-    name: '',
-    description: '',
-    dueDate: '',
-    assignedTo: '',
-    status: 'default'
-  })
-  
-const [error, setError] = useState({
-    id: '',
-    name: '',
-    description: '',
-    dueDate: '',
-    assignedTo: '',
-    status: 'default'
-})
+  const { addTask, editedTask, updateTask } = props;
+  //define state for the field
+  const [task, setTask] = useState({
+    id: "",
+    name: "",
+    description: "",
+    dueDate: "",
+    assignedTo: "",
+    status: "default",
+  });
 
-const [isSubmitted, setIsSubmitted] = useState(true)
+  const [error, setError] = useState({
+    id: "",
+    name: "",
+    description: "",
+    dueDate: "",
+    assignedTo: "",
+    status: "default",
+  });
 
   useEffect(() => {
     console.log(task);
   }, [task]);
 
   useEffect(() => {
+    
     if (editedTask) {
-      setTask(editedTask)
+      setTask(editedTask);
     }
-  }, [editedTask])
+  }, [editedTask]);
 
   const handleInputChange = (name) => {
-   return (event) => {
-    setTask({
-      ...task,
-      [name]: event.target.value,
-    })
-    console.log('form value', task)
-   }
-  }
+    return (event) => {
+      setTask({
+        ...task,
+        [name]: event.target.value,
+      });
+      console.log("form value", task);
+    };
+  };
 
   const handleFormSubmit = (event) => {
-    //stop event reloading on browser
     event.preventDefault();
     addTask(task)
-  //   if (editedTask) {
-  //     updateTask(task)
-  //   }
-  //   else {
-  //     addTask(task)
-  //   }
-  //   setTask({
-  //     id: '',
-  //     name: '',
-  //     description: '',
-  //     dueDate: '',
-  //     assignedTo: '',
-  //     status: 'default'
-  //   })
-   }
 
-  
-
+    setTask({
+          id: '',
+          name: '',
+          description: '',
+          dueDate: '',
+          assignedTo: '',
+          status: 'default'
+        })
+  };
 
   return (
     <div className="container mt-3">
@@ -82,17 +72,18 @@ const [isSubmitted, setIsSubmitted] = useState(true)
       <h6></h6>
       <form className="mt-3" onSubmit={handleFormSubmit}>
         <div className="row">
-        <div className="col-6 mb-3">
-            <label htmlFor="name" className="form-label">
-              ID:
-            </label>
-            <input type="text" className="form-control" id="id" name="id" value={task.id} onChange={handleInputChange("id")}/>
-          </div>
           <div className="col-6 mb-3">
             <label htmlFor="name" className="form-label">
               Name:
             </label>
-            <input type="text" className="form-control" id="name" name="name" value={task.name} onChange={handleInputChange("name")}/>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={task.name}
+              onChange={handleInputChange("name")}
+            />
           </div>
 
           <div className="col-6 mb-3">
@@ -117,7 +108,7 @@ const [isSubmitted, setIsSubmitted] = useState(true)
               className="form-control"
               id="dueDate"
               name="dueDate"
-              value={task.dueDate} 
+              value={task.dueDate}
               onChange={handleInputChange("dueDate")}
             />
           </div>
@@ -140,8 +131,13 @@ const [isSubmitted, setIsSubmitted] = useState(true)
             <label htmlFor="status" className="form-label">
               Status:
             </label>
-            <select className="form-select" id="status" name="status" value={task.status}
-            onChange={handleInputChange("status")}>
+            <select
+              className="form-select"
+              id="status"
+              name="status"
+              value={task.status}
+              onChange={handleInputChange("status")}
+            >
               <option value="default">Choose a status</option>
               <option value="in-progress">In Progress</option>
               <option value="completed">Completed</option>
@@ -151,15 +147,26 @@ const [isSubmitted, setIsSubmitted] = useState(true)
         </div>
 
         <div className="">
-        <button disabled={!isSubmitted} type="submit" className="btn btn-primary">
-          Add Task
-        </button>
-        <button disabled={!isSubmitted} type="button" className="btn btn-info mx-2"
-        onClick={()=>{
-          updateTask(task)
-      }}>
-          Update
-        </button>
+            <button className="btn btn-primary" id="addBtn">
+              Add Task
+            </button>
+            <button
+            id="updateBtn"
+              className="btn btn-info mx-2"
+              onClick={() => {
+                updateTask(task)
+                setTask({
+                  id: '',
+                  name: '',
+                  description: '',
+                  dueDate: '',
+                  assignedTo: '',
+                  status: 'default'
+                })
+              }}
+            >
+              Update
+            </button>
         </div>
       </form>
     </div>

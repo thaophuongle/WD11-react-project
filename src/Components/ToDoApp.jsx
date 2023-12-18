@@ -17,6 +17,12 @@ const ToDoApp = () => {
     assignedTo: '',
     status: 'default'
       })
+
+      const [idCounter, setIdCounter] = useState(
+        taskList.length > 0
+          ? Math.max(...taskList.map((task) => task.id)) + 1
+          : 1
+      ); //if there are tasks in the list, calculate the next available ID based on the maximum existing id, otherwise, it starts with 1
     
       useEffect(() => {
         // Save the task list to local storage whenever it changes
@@ -24,15 +30,30 @@ const ToDoApp = () => {
       }, [taskList]);
 
     //Add new task to the task list
-const addTask = (newTask) => {
-     // Create a new array with the existing tasks
-    const updatedTaskList = [...taskList]
-
-    //Add a new task to the new array
-    updatedTaskList.push(newTask);
-    setTaskList(updatedTaskList);
-
-}
+    const addTask = (newTask) => {
+      // Create a new array with the existing tasks
+      const updatedTaskList = [...taskList];
+    
+      // Set the id of the new task using the current idCounter value
+      newTask.id = idCounter;
+    
+      // Increment the idCounter for the next task
+      setIdCounter(idCounter + 1);
+    
+      // Add a new task to the new array
+      updatedTaskList.push(newTask);
+      setTaskList(updatedTaskList);
+    
+      // Reset editedTask to an empty task
+      setEditedTask({
+        id: '',
+        name: '',
+        description: '',
+        dueDate: '',
+        assignedTo: '',
+        status: 'default'
+      });
+    };
 
 //Delete a task in the list
 const deleteTask = (taskId) => {
@@ -90,8 +111,8 @@ const deleteTask = (taskId) => {
             {
                 taskList.map((task, index) => {
                   let id = index +1
-                   return <tr scope="row" key={index} id={id}>
-              <td>{id}</td>
+                   return <tr scope="row" key={index}>
+              <td>{task.id}</td>
               <td>{task.name}</td>
               <td>{task.description}</td>
               <td>{task.dueDate}</td>
