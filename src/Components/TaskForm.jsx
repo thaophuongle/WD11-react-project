@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 
 const TaskForm = (props) => {
-  const {addTask} = props;
+  const {addTask, editedTask, updateTask} = props;
    //define state for the field
    const [task, setTask] = useState({
     id: '',
@@ -21,9 +21,17 @@ const [error, setError] = useState({
     status: 'default'
 })
 
+const [isSubmitted, setIsSubmitted] = useState(true)
+
   useEffect(() => {
     console.log(task);
   }, [task]);
+
+  useEffect(() => {
+    if (editedTask) {
+      setTask(editedTask)
+    }
+  }, [editedTask])
 
   const handleInputChange = (name) => {
    return (event) => {
@@ -39,7 +47,21 @@ const [error, setError] = useState({
     //stop event reloading on browser
     event.preventDefault();
     addTask(task)
-  }
+  //   if (editedTask) {
+  //     updateTask(task)
+  //   }
+  //   else {
+  //     addTask(task)
+  //   }
+  //   setTask({
+  //     id: '',
+  //     name: '',
+  //     description: '',
+  //     dueDate: '',
+  //     assignedTo: '',
+  //     status: 'default'
+  //   })
+   }
 
   
 
@@ -129,10 +151,13 @@ const [error, setError] = useState({
         </div>
 
         <div className="">
-        <button type="submit" className="btn btn-primary">
+        <button disabled={!isSubmitted} type="submit" className="btn btn-primary">
           Add Task
         </button>
-        <button type="submit" className="btn btn-info mx-2">
+        <button disabled={!isSubmitted} type="button" className="btn btn-info mx-2"
+        onClick={()=>{
+          updateTask(task)
+      }}>
           Update
         </button>
         </div>

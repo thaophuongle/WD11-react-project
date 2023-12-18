@@ -7,6 +7,16 @@ const ToDoApp = () => {
       );
 
       console.log('task list', taskList)
+
+
+      const [editedTask, setEditedTask] = useState({
+        id: '',
+    name: '',
+    description: '',
+    dueDate: '',
+    assignedTo: '',
+    status: 'default'
+      })
     
       useEffect(() => {
         // Save the task list to local storage whenever it changes
@@ -33,12 +43,35 @@ const deleteTask = (taskId) => {
     setTaskList(updatedTaskList);
   };
 
+  //Edit a task
+  const editTask = (chosenTask) => {
+    setEditedTask({ ...chosenTask });
+    console.log('edit task:', chosenTask)
+  }
+
+  //Update a task
+  const updateTask = (updatedTask) => {
+    setTaskList((prevTaskList) => {
+      // Use the map function to create a new array based on the previous task list
+      return prevTaskList.map((task) => {
+        // Check if the current task's ID matches the ID of the updated task
+        if (task.id === updatedTask.id) {
+          // If yes, replace the current task with the updated task
+          return updatedTask;
+        } else {
+          // If no, keep the current task unchanged
+          return task;
+        }
+      });
+    });
+  };
+ 
   return (
     <div className="container">
       <h1 className="mt-3" style={{ textAlign: "center" }}>
         To-do App
       </h1>
-      <TaskForm addTask={addTask}/>
+      <TaskForm addTask={addTask} editedTask={editedTask} updateTask={updateTask}/>
       <div className="mt-5">
         <h4>Task List</h4>
         <table className="table">
@@ -55,16 +88,20 @@ const deleteTask = (taskId) => {
           </thead>
           <tbody>
             {
-                taskList.map((task) => {
-                   return <tr scope="row" key={task.id}>
-              <td>{task.id}</td>
+                taskList.map((task, index) => {
+                  let id = index +1
+                   return <tr scope="row" key={index} id={id}>
+              <td>{id}</td>
               <td>{task.name}</td>
               <td>{task.description}</td>
               <td>{task.dueDate}</td>
               <td>{task.assignedTo}</td>
               <td>{task.status}</td>
               <td>
-                <button className="btn btn-warning">
+                <button className="btn btn-warning"
+                onClick={()=>{
+                    editTask(task);
+                  }}>
                   <i className="fa fa-edit"></i>
                 </button>
                 <button className="btn btn-danger mx-2"
