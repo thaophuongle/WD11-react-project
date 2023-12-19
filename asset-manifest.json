@@ -1,12 +1,12 @@
 {
   "files": {
     "main.css": "/WD11-react-project/static/css/main.31d6cfe0.css",
-    "main.js": "/WD11-react-project/static/js/main.66fe7f42.js",
+    "main.js": "/WD11-react-project/static/js/main.f01cc77f.js",
     "index.html": "/WD11-react-project/index.html",
-    "main.66fe7f42.js.map": "/WD11-react-project/static/js/main.66fe7f42.js.map"
+    "main.f01cc77f.js.map": "/WD11-react-project/static/js/main.f01cc77f.js.map"
   },
   "entrypoints": [
     "static/css/main.31d6cfe0.css",
-    "static/js/main.66fe7f42.js"
+    "static/js/main.f01cc77f.js"
   ]
 }
