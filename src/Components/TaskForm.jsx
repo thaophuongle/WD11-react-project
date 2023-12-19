@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from "react";
 
 const TaskForm = (props) => {
-  const { addTask, editedTask, updateTask } = props;
+  const { addTask, editedTask, updateTask, setEditedTask } = props;
   //define state for the field
   const [task, setTask] = useState({
     id: "",
@@ -44,8 +44,12 @@ const TaskForm = (props) => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    addTask(task)
-
+    if (editedTask) {
+      updateTask(task)
+    }
+    else {
+      addTask(task)
+    }
     setTask({
           id: '',
           name: '',
@@ -54,6 +58,7 @@ const TaskForm = (props) => {
           assignedTo: '',
           status: 'default'
         })
+    setEditedTask(undefined)
   };
 
   return (
@@ -147,26 +152,19 @@ const TaskForm = (props) => {
         </div>
 
         <div className="">
-            <button className="btn btn-primary" id="addBtn">
+            {
+              editedTask? (<button
+                id="updateBtn"
+                  className="btn btn-info mx-2"
+                  onClick={() => {
+                    updateTask(task) 
+                  }}
+                >
+                  Update
+                </button>) : (<button className="btn btn-primary" id="addBtn">
               Add Task
-            </button>
-            <button
-            id="updateBtn"
-              className="btn btn-info mx-2"
-              onClick={() => {
-                updateTask(task)
-                setTask({
-                  id: '',
-                  name: '',
-                  description: '',
-                  dueDate: '',
-                  assignedTo: '',
-                  status: 'default'
-                })
-              }}
-            >
-              Update
-            </button>
+            </button>)
+            }
         </div>
       </form>
     </div>

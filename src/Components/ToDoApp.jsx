@@ -9,14 +9,7 @@ const ToDoApp = () => {
       console.log('task list', taskList)
 
 
-      const [editedTask, setEditedTask] = useState({
-        id: '',
-    name: '',
-    description: '',
-    dueDate: '',
-    assignedTo: '',
-    status: 'default'
-      })
+      const [editedTask, setEditedTask] = useState(undefined)
 
       const [idCounter, setIdCounter] = useState(
         taskList.length > 0
@@ -43,16 +36,6 @@ const ToDoApp = () => {
       // Add a new task to the new array
       updatedTaskList.push(newTask);
       setTaskList(updatedTaskList);
-    
-      // Reset editedTask to an empty task
-      setEditedTask({
-        id: '',
-        name: '',
-        description: '',
-        dueDate: '',
-        assignedTo: '',
-        status: 'default'
-      });
     };
 
 //Delete a task in the list
@@ -92,7 +75,7 @@ const deleteTask = (taskId) => {
       <h1 className="mt-3" style={{ textAlign: "center" }}>
         To-do App
       </h1>
-      <TaskForm addTask={addTask} editedTask={editedTask} updateTask={updateTask}/>
+      <TaskForm addTask={addTask} editedTask={editedTask} updateTask={updateTask} setEditedTask={setEditedTask}/>
       <div className="mt-5">
         <h4>Task List</h4>
         <table className="table">
